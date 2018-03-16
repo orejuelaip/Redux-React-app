@@ -9,6 +9,12 @@ function handleSubmit(event) {
 	const data = new FormData($form)
 	const title = data.get('title');
 	console.warn(title);
+	store.dispatch({
+		type: 'ADD_SONG',
+		payload: {
+			title
+		}
+	})
 }
 
  const initialState = [
@@ -24,7 +30,16 @@ function handleSubmit(event) {
  ]
 
 const store = createStore(
-	() => {},
+	(state) => state,
 	initialState,
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
+
+const $container = document.getElementById('playList');
+const playlist = store.getState();
+playlist.forEach( (item) => {
+	const template = document.createElement('p');
+	template.textContent = item.title;
+	$container.appendChild(template)
+})
+console.log(store.getState());
